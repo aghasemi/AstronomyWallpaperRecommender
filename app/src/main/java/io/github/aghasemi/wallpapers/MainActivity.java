@@ -36,6 +36,7 @@ public class MainActivity extends Activity {
     Bitmap currentBitmap;
     String urlOfCurrentPage;
     String urlOfCurrentImage;
+    String imageUrlOfLastSetWallpaper;
     boolean currentImageHasBeenSelectedAsWallpaper=false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -190,19 +191,18 @@ public class MainActivity extends Activity {
         final Button setAsWpButton=(Button)findViewById(R.id.setAsWP);
 
 
-
+        final Activity parent=this;
         if (!mWifi.isConnected())
 		{
 			Log.v("3G", "NOT ON WIFI");
-            runOnUiThread(new Runnable() {
+            parent.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(getApplicationContext(), "Not on a WiFi Connection", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(parent.getBaseContext(), "Not on a WiFi Connection", Toast.LENGTH_LONG).show();
 
                 }
             });
-            if (set)
-                return;
+            if (set) return;
 		}
 		
 		runOnUiThread(new Runnable() {
@@ -228,29 +228,32 @@ public class MainActivity extends Activity {
 			public void imageReceived(final Bitmap bmp,final String imurl) {
 				 try{
 					Log.v("200","OK");
-                     currentBitmap=bmp;
 
                      if (bmp!=null)
                      {
-                         urlOfCurrentPage =adr;
-                         if (set)
+                         if (set && !imurl.equals(imageUrlOfLastSetWallpaper))//TODO
                          {
                              WallpaperManager.getInstance(getBaseContext()).setBitmap(currentBitmap);
+
+
+
                              //The action associated with the notification
                              Intent notificationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(adr));
-
                              PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, notificationIntent, 0);
+                             showNotification("Wallpaper Changed", "Your wallpaper was changed to the image in the following link:\n" + adr, R.mipmap.ic_launcher, bmp, contentIntent);
+                               runOnUiThread(new Runnable() {
+                                   @Override
+                                   public void run() {
+                                       Toast.makeText(parent.getBaseContext(), "Your wallpaper was successfully changed.", Toast.LENGTH_LONG).show();
 
-                             showNotification( "Wallpaper Changed", "Your wallpaper was changed to the image in the following link:\n"+adr, R.mipmap.ic_launcher,bmp,contentIntent);
-                             Context context = getApplicationContext();
-                             CharSequence text = "Your wallpaper was successfully changed.";
-                             int duration = Toast.LENGTH_SHORT;
-
-                             Toast toast;
-                             toast = Toast.makeText(context, text, duration);
-                             toast.show();
+                                   }
+                               });
+                             imageUrlOfLastSetWallpaper=imurl;
 
                          }
+                         urlOfCurrentPage =adr;
+                         currentBitmap=bmp;
+                         urlOfCurrentImage=imurl;
 
                          runOnUiThread(new Runnable() {
                              @Override
@@ -261,7 +264,6 @@ public class MainActivity extends Activity {
                                  pd.dismiss();
                              }
                          });
-                         urlOfCurrentImage=imurl;
                      }
                      else
                      {
