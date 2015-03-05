@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Astronomical Wallpaper Recommender</string>
+    <string name="app_title">Astronomical Wallpapers</string>
+    <string name="hello_world">Hello My Niceworld!</string>
+    <string name="btnText">Randomly Choose a Wallpaper!</string>
+    <string name="action_settings">Turn the Wallpaper Changer Off</string>
+
+</resources>

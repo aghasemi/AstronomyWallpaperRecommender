@@ -1,0 +1,5 @@
+/media/e/cloud/Dropbox/Academic/Codes/AndroidStudio/WallpaperRecommender/app/build/intermediates/classes/release
+/media/e/cloud/Dropbox/Academic/Codes/AndroidStudio/WallpaperRecommender/app/build/intermediates/pre-dexed/release/support-annotations-21.0.3-3135550050dd14d3997e1adff365207ef15b422e.jar
+/media/e/cloud/Dropbox/Academic/Codes/AndroidStudio/WallpaperRecommender/app/build/intermediates/pre-dexed/release/internal_impl-21.0.3-2beacaeee1b6447669a6f16b7ab6d9742f15a4f1.jar
+/media/e/cloud/Dropbox/Academic/Codes/AndroidStudio/WallpaperRecommender/app/build/intermediates/pre-dexed/release/jsoup-1.7.2-9563c857b179eb10227bfdc204a5cbf512e6b654.jar
+/media/e/cloud/Dropbox/Academic/Codes/AndroidStudio/WallpaperRecommender/app/build/intermediates/pre-dexed/release/classes-d6d6fc2a497cdda4cc738910ac9b1ddbabff54e6.jar
