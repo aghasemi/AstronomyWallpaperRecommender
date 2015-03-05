@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.prefs.AbstractPreferences;
 
 import android.app.Activity;
 import android.app.Notification;
@@ -15,6 +16,7 @@ import android.app.ProgressDialog;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -33,6 +35,7 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	Timer timer=new Timer(true);
+    SharedPreferences settings;
     Bitmap currentBitmap;
     String urlOfCurrentPage;
     String urlOfCurrentImage;
@@ -42,7 +45,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+        settings=getSharedPreferences("AWRprefs",0);
+        int lastState=settings.getInt("automaticallyChangeWallpaper",0);
+        ((CheckBox) findViewById(R.id.changeDaily)).setChecked(lastState>0);
         ((ImageView) findViewById(R.id.imView)).setImageResource(R.drawable.default_pic);
         todayWallpaperSet(false);
 	}
@@ -106,6 +111,9 @@ public class MainActivity extends Activity {
         {
             timer.cancel();
         }
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putInt("automaticallyChangeWallpaper", checkBox.isChecked() ? 1 : 0);
+        editor.commit();
     }
 
     public void changeWallpaper(View view)
@@ -231,7 +239,7 @@ public class MainActivity extends Activity {
 
                      if (bmp!=null)
                      {
-                         if (set && !imurl.equals(imageUrlOfLastSetWallpaper))//TODO
+                         if (set && !imurl.equals(imageUrlOfLastSetWallpaper))
                          {
                              WallpaperManager.getInstance(getBaseContext()).setBitmap(currentBitmap);
 
